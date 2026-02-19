@@ -1,0 +1,13 @@
+GET http://localhost:5047/api/movies
+
+###
+
+POST http://localhost:5047/api/movies
+Content-Type: application/json
+
+{
+  "title": "Mentol"
+}
+
+###
+
