@@ -1,3 +1,4 @@
+using EvoMovies.Api.Domain.Movies.Enums;
 using EvoMovies.Api.Models;
 using EvoMovies.Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +15,17 @@ public class MoviesController(MovieService movieService) : ControllerBase
     {
         var movies = await movieService.RetrieveMoviesAsync();
         
-        return Ok(movies);
+        return Ok(movies.ConvertAll(MovieResponse.FromMovie));
     }
 
     [HttpPost]
     public async Task<IActionResult> RegisterMovie([FromBody] RegisterMovieRequest request)
     {
-        await movieService.RegisterMovieAsync(request.Title);
+        await movieService.RegisterMovieAsync(request.Title, request.Genre switch
+        {
+            _ => Genre.Other
+        }, request.Director, request.ReleaseDate);
+        
         return Ok();
     }
 }

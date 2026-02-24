@@ -1,20 +1,24 @@
+using EvoMovies.Api.Domain.Movies;
+using EvoMovies.Api.Domain.Movies.Enums;
+using EvoMovies.Api.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+
 namespace EvoMovies.Api.Services;
 
-public sealed class MovieService
+public sealed class MovieService(AppDbContext dbContext)
 {
-    private readonly List<string> _movies = ["Spider-Man 2", "Batman", "Fast & Furious 5"];
-    
-    public async Task<List<string>> RetrieveMoviesAsync()
+    public async Task<List<Movie>> RetrieveMoviesAsync()
     {
-        await Task.CompletedTask;
+        var movies = await dbContext.Movies.ToListAsync();
 
-        return _movies;
+        return movies;
     }
 
-    public async Task RegisterMovieAsync(string title)
+    public async Task RegisterMovieAsync(string title, Genre genre, string director, DateOnly releaseDate)
     {
-        await Task.CompletedTask;
+        var movie = Movie.Register(title, genre, director, releaseDate);
+        dbContext.Movies.Add(movie);
         
-        _movies.Add(title);
+        await dbContext.SaveChangesAsync();
     }
 }

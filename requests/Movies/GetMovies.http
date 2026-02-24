@@ -6,7 +6,10 @@ POST http://localhost:5047/api/movies
 Content-Type: application/json
 
 {
-  "title": "Mentol"
+  "title": "Spider-Man 2",
+  "genre": "Action",
+  "director": "Sam Raimi",
+  "releaseDate": "2003-10-01"
 }
 
 ###
