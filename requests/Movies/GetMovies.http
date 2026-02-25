@@ -6,10 +6,10 @@ POST http://localhost:5047/api/movies
 Content-Type: application/json
 
 {
-  "title": "Spider-Man 2",
+  "title": "Spider-Man",
   "genre": "Action",
   "director": "Sam Raimi",
-  "releaseDate": "2003-10-01"
+  "releaseDate": "2002-10-14"
 }
 
 ###

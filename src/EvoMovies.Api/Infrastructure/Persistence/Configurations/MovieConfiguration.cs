@@ -1,5 +1,6 @@
 using EvoMovies.Api.Domain.Movies;
 using EvoMovies.Api.Domain.Movies.Enums;
+using EvoMovies.Api.Infrastructure.Persistence.Configurations.Convertors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -32,16 +33,11 @@ internal sealed class MovieConfiguration : IEntityTypeConfiguration<Movie>
                .IsRequired();
         
         builder.Property(t => t.ReleaseDate)
-               .HasConversion(
-                      d => d.ToDateTime(TimeOnly.MinValue).ToUniversalTime(),
-                      d => DateOnly.FromDateTime(d.ToLocalTime())
-               )
+               .HasConversion<DateOnlyConverter>()
                .IsRequired();
 
         builder.Property(t => t.CreatedAt)
-               .HasConversion(
-                      domainValue => domainValue.ToUniversalTime(), 
-                      dbValue => dbValue.ToLocalTime())
+               .HasConversion<DateTimeConverter>()
                .IsRequired();
     }
 }
