@@ -9,16 +9,34 @@ public sealed class MovieService(AppDbContext dbContext)
 {
     public async Task<List<Movie>> RetrieveMoviesAsync()
     {
-        var movies = await dbContext.Movies.ToListAsync();
-
-        return movies;
+        return await dbContext.Movies.ToListAsync();
     }
 
-    public async Task RegisterMovieAsync(string title, Genre genre, string director, DateOnly releaseDate)
+    public async Task<Movie?> RetrieveMovieByIdAsync(Guid id)
     {
-        var movie = Movie.Register(title, genre, director, releaseDate);
+        return await dbContext.Movies.FirstOrDefaultAsync(x => x.Id == id);
+    }
+
+    public async Task RegisterMovieAsync(
+        string title,
+        Genre genre,
+        string director,
+        DateOnly releaseDate,
+        string poster,
+        string url)
+    {
+        var movie = Movie.Register(title, genre, director, releaseDate, poster, url);
+
         dbContext.Movies.Add(movie);
-        
+        await dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteMovieAsync(Guid id)
+    {
+        var movie = await dbContext.Movies.FindAsync(id);
+        if (movie is null) return;
+
+        dbContext.Movies.Remove(movie);
         await dbContext.SaveChangesAsync();
     }
 }
