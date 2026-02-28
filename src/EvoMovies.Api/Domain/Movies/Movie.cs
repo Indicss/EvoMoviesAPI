@@ -17,6 +17,7 @@ public sealed class Movie
     public DateOnly ReleaseDate { get; private set; }
     
     public string Poster { get; private set; }
+    
     public string Url { get; private set; }
 
     public DateTime CreatedAt { get; private init; }

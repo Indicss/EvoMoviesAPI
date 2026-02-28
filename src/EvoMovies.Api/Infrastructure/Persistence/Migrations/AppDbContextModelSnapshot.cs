@@ -25,7 +25,6 @@ namespace EvoMovies.Api.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("EvoMovies.Api.Domain.Movies.Movie", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -33,39 +32,38 @@ namespace EvoMovies.Api.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Director")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Poster")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<decimal>("Rating")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Poster")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<decimal>("Rating")
-                        .HasPrecision(4, 2)
-                        .HasColumnType("numeric(4,2)");
-
-                    b.Property<DateOnly>("ReleaseDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("Title")
+                    b.Property<string>("Url")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("movies", (string)null);
+                    b.ToTable("Movies", (string)null);
                 });
 #pragma warning restore 612, 618
         }
