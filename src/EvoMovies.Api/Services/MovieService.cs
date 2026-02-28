@@ -7,12 +7,17 @@ namespace EvoMovies.Api.Services;
 
 public sealed class MovieService(AppDbContext dbContext)
 {
-    public async Task<List<Movie>> RetrieveMoviesAsync(string? search)
+    public async Task<List<Movie>> RetrieveMoviesAsync(string? search, Genre? genre)
     {
         var query = dbContext.Movies.AsQueryable();
         if (!string.IsNullOrWhiteSpace(search))
         {
             query = query.Where(x => x.Title.ToLower().Contains(search));
+        }
+
+        if (genre.HasValue)
+        {
+            query = query.Where(x => x.Genre == genre.Value);
         }
         
         return await query.ToListAsync();

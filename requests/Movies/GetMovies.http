@@ -2,7 +2,7 @@ GET http://localhost:5047/api/movies
 
 ###
 
-GET http://localhost:5047/api/movies?search=spider
+GET http://localhost:5047/api/movies?genre=Action
 
 ###
 @movieId = 0d333906-9e5e-4d7d-b2a8-35aac837a428
@@ -14,11 +14,11 @@ POST http://localhost:5047/api/movies
 Content-Type: application/json
 
 {
-  "title": "Spider-Man",
-  "genre": "Action",
-  "director": "Christopher Nolan",
-  "releaseDate": "2010-07-16",
-  "poster": "https://images.unsplash.com/photo-1635805737707-575885ab0820?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "title": "Dune",
+  "genre": "SciFi",
+  "director": "Denis Villeneuve",
+  "releaseDate": "2021-10-22",
+  "poster": "https://images.unsplash.com/photo-1501535033-a594139be346?q=80&w=1000&auto=format&fit=crop",
   "url": "https://www.youtube.com/watch?v=RZbACPsQLS4"
 }
 
