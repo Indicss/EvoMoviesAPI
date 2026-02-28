@@ -7,9 +7,15 @@ namespace EvoMovies.Api.Services;
 
 public sealed class MovieService(AppDbContext dbContext)
 {
-    public async Task<List<Movie>> RetrieveMoviesAsync()
+    public async Task<List<Movie>> RetrieveMoviesAsync(string? search)
     {
-        return await dbContext.Movies.ToListAsync();
+        var query = dbContext.Movies.AsQueryable();
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            query = query.Where(x => x.Title.ToLower().Contains(search));
+        }
+        
+        return await query.ToListAsync();
     }
 
     public async Task<Movie?> RetrieveMovieByIdAsync(Guid id)

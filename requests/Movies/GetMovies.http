@@ -2,6 +2,14 @@ GET http://localhost:5047/api/movies
 
 ###
 
+GET http://localhost:5047/api/movies?search=spider
+
+###
+@movieId = 0d333906-9e5e-4d7d-b2a8-35aac837a428
+GET http://localhost:5047/api/movies/{{movieId}}
+
+###
+
 POST http://localhost:5047/api/movies
 Content-Type: application/json
 

@@ -9,9 +9,9 @@ namespace EvoMovies.Api.Controllers;
 public sealed class MoviesController(MovieService movieService) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<List<MovieResponse>>> GetMovies()
+    public async Task<ActionResult<List<MovieResponse>>> GetMovies([FromQuery] string? search)
     {
-        var movies = await movieService.RetrieveMoviesAsync();
+        var movies = await movieService.RetrieveMoviesAsync(search);
         return Ok(movies.Select(MovieResponse.FromMovie).ToList());
     }
 
