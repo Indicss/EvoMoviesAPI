@@ -15,9 +15,9 @@ public sealed class Movie
     public decimal Rating { get; private set; }
 
     public DateOnly ReleaseDate { get; private set; }
-    
+
     public string Poster { get; private set; }
-    
+
     public string Url { get; private set; }
 
     public DateTime CreatedAt { get; private init; }
@@ -43,7 +43,7 @@ public sealed class Movie
         Url = url;
         CreatedAt = createdAt;
     }
-
+    
     public static Movie Register(
         string title,
         Genre genre,
@@ -58,15 +58,14 @@ public sealed class Movie
             director,
             0,
             releaseDate,
-            poster,
-            url,
-            DateTime.UtcNow);
+            poster ?? "",
+            url ?? "",
+            DateTime.UtcNow
+        );
 
-    public void UpdateTitle(string title)
-    {
-        Title = title;
-    }
-    
+    public void UpdateTitle(string title) => Title = title;
+
     public void UpdatePoster(string poster) => Poster = poster;
+
     public void UpdateUrl(string url) => Url = url;
 }

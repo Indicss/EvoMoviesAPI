@@ -4,26 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EvoMovies.Api.Controllers;
 
-[ApiController]
 [Route("api/movies")]
-public sealed class MoviesController(MovieService movieService) : ControllerBase
+[ApiController]
+public class MoviesController(MovieService movieService) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<List<MovieResponse>>> GetMovies(
-        [FromQuery] string? search,
-        [FromQuery] GenreDto? genre)
+    public async Task<IActionResult> GetMovies([FromQuery] string? sort)
     {
-        var movies = await movieService.RetrieveMoviesAsync(search, genre?.ToDomainModel());
-        return Ok(movies.Select(MovieResponse.FromMovie).ToList());
-    }
-
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<MovieResponse>> GetMovieById(Guid id)
-    {
-        var movie = await movieService.RetrieveMovieByIdAsync(id);
-        if (movie is null) return NotFound();
-
-        return Ok(MovieResponse.FromMovie(movie));
+        var movies = await movieService.RetrieveMoviesAsync(sort);
+        return Ok(movies.ConvertAll(MovieResponse.FromMovie));
     }
 
     [HttpPost]
@@ -35,15 +24,9 @@ public sealed class MoviesController(MovieService movieService) : ControllerBase
             request.Director,
             request.ReleaseDate,
             request.Poster,
-            request.Url);
+            request.Url
+        );
 
-        return NoContent();
-    }
-
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteMovie(Guid id)
-    {
-        await movieService.DeleteMovieAsync(id);
-        return NoContent();
+        return Ok();
     }
 }

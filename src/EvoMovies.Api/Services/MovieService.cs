@@ -7,25 +7,17 @@ namespace EvoMovies.Api.Services;
 
 public sealed class MovieService(AppDbContext dbContext)
 {
-    public async Task<List<Movie>> RetrieveMoviesAsync(string? search, Genre? genre)
+    public async Task<List<Movie>> RetrieveMoviesAsync(string? sort)
     {
-        var query = dbContext.Movies.AsQueryable();
-        if (!string.IsNullOrWhiteSpace(search))
-        {
-            query = query.Where(x => x.Title.ToLower().Contains(search));
-        }
+        IQueryable<Movie> query = dbContext.Movies;
 
-        if (genre.HasValue)
+        query = sort?.ToLower() switch
         {
-            query = query.Where(x => x.Genre == genre.Value);
-        }
-        
+            "newest" => query.OrderByDescending(x => x.ReleaseDate),
+            _ => query.OrderByDescending(x => x.CreatedAt)
+        };
+
         return await query.ToListAsync();
-    }
-
-    public async Task<Movie?> RetrieveMovieByIdAsync(Guid id)
-    {
-        return await dbContext.Movies.FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task RegisterMovieAsync(
@@ -36,18 +28,17 @@ public sealed class MovieService(AppDbContext dbContext)
         string poster,
         string url)
     {
-        var movie = Movie.Register(title, genre, director, releaseDate, poster, url);
+        var movie = Movie.Register(
+            title,
+            genre,
+            director,
+            releaseDate,
+            poster,
+            url
+        );
 
         dbContext.Movies.Add(movie);
-        await dbContext.SaveChangesAsync();
-    }
 
-    public async Task DeleteMovieAsync(Guid id)
-    {
-        var movie = await dbContext.Movies.FindAsync(id);
-        if (movie is null) return;
-
-        dbContext.Movies.Remove(movie);
         await dbContext.SaveChangesAsync();
     }
 }

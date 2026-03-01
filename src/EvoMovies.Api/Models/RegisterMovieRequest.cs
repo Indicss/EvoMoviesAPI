@@ -1,5 +1,3 @@
-using EvoMovies.Api.Models;
-
 namespace EvoMovies.Api.Models;
 
 public sealed record RegisterMovieRequest(
@@ -8,4 +6,5 @@ public sealed record RegisterMovieRequest(
     string Director,
     DateOnly ReleaseDate,
     string Poster,
-    string Url);
+    string Url
+);
